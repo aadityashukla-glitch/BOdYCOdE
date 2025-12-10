@@ -65,14 +65,17 @@
       input.value = '';
 
       try {
-        const response = await fetch('/api/chat', {
+        const response = await fetch('/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message })
         });
+
         const data = await response.json();
-        chatMessages.innerHTML += `<p><strong>AI:</strong> ${data.response}</p>`;
+
+        chatMessages.innerHTML += `<p><strong>AI:</strong> ${data.reply}</p>`;
         chatMessages.scrollTop = chatMessages.scrollHeight;
+
       } catch (err) {
         chatMessages.innerHTML += `<p><strong>AI:</strong> Sorry, something went wrong.</p>`;
       }
