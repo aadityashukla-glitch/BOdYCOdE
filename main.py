@@ -45,9 +45,6 @@ def exercise_info_tool(exercise: str) -> str:
 
 # ---------------- YOUR ORIGINAL CODE ENDS ----------------
 
-# ---------------- RULE FOR GIRLFRIEND ----------------
-    if "girlfriend" in lower_input:
-        return JSONResponse({"reply": "My girlfriend is Mahii Shukla ❤️"})
 # ---------------- FASTAPI ADDITION ----------------
 
 app = FastAPI()
@@ -64,7 +61,10 @@ async def chat_api(request: Request):
     user_input = data.get("message")
 
     lower_input = user_input.lower()
-
+    # ---------------- RULE FOR GIRLFRIEND ----------------
+    if "girlfriend" in lower_input:
+        return JSONResponse({"reply": "My girlfriend is Mahii Shukla ❤️"})
+        
     # 1: Workout tool
     if any(k in lower_input for k in ["workout", "plan", "fat", "muscle"]):
         response = workout_plan_tool(user_input)
