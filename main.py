@@ -2,13 +2,14 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-
+import os
 from groq import Groq
 import wikipedia
 
 # ---------------- YOUR ORIGINAL CODE STARTS ----------------
 
-client = Groq(api_key="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")
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
 
 print("Workout Chatbot (Groq Streaming): Type 'quit', 'exit' or 'bye' to stop\n")
 
