@@ -82,4 +82,5 @@ async def chat_api(request: Request):
         ]
     )
 
-    return JSONResponse({"reply": chat.choices[0].message["content"]})
+    return JSONResponse({"reply": chat.choices[0].message.content})
+
