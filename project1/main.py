@@ -1,5 +1,12 @@
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+
 from groq import Groq
 import wikipedia
+
+# ---------------- YOUR ORIGINAL CODE STARTS ----------------
 
 client = Groq(api_key="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")
 
@@ -35,39 +42,43 @@ def exercise_info_tool(exercise: str) -> str:
     except Exception:
         return f"No information found for '{exercise}'. Try another exercise."
 
-while True:
-    user_input = input("You: ")
+# ---------------- YOUR ORIGINAL CODE ENDS ----------------
 
-    if user_input.lower() in ["quit", "exit", "bye"]:
-        print("\nChatbot: Goodbye!")
-        break
 
-    # Decide if the input matches workout plan or exercise info
+# ---------------- FASTAPI ADDITION ----------------
+
+app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+
+@app.get("/")
+def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.post("/chat")
+async def chat_api(request: Request):
+    data = await request.json()
+    user_input = data.get("message")
+
     lower_input = user_input.lower()
-    if "workout" in lower_input or "plan" in lower_input or "fat" in lower_input or "muscle" in lower_input:
+
+    # 1: Workout tool
+    if any(k in lower_input for k in ["workout", "plan", "fat", "muscle"]):
         response = workout_plan_tool(user_input)
-        print(f"Chatbot: {response}")
-        continue
-    elif "exercise" in lower_input or "how to do" in lower_input or "what is" in lower_input:
+        return JSONResponse({"reply": response})
+
+    # 2: Exercise info tool
+    if any(k in lower_input for k in ["exercise", "how to do", "what is"]):
         response = exercise_info_tool(user_input)
-        print(f"Chatbot: {response}")
-        continue
+        return JSONResponse({"reply": response})
 
-    # Otherwise, use Groq streaming for general conversation
-    print("Chatbot: ", end="", flush=True)
-
-    stream = client.chat.completions.create(
+    # 3: Groq Chat (not streaming here)
+    chat = client.chat.completions.create(
         model="llama-3.1-8b-instant",
         messages=[
             {"role": "system", "content": "You are a helpful workout assistant."},
             {"role": "user", "content": user_input}
-        ],
-        stream=True
+        ]
     )
 
-    for chunk in stream:
-        delta = chunk.choices[0].delta
-        if hasattr(delta, "content") and delta.content:
-            print(delta.content, end="", flush=True)
-
-    print()
+    return JSONResponse({"reply": chat.choices[0].message["content"]})
