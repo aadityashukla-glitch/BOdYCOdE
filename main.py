@@ -45,6 +45,18 @@ def exercise_info_tool(exercise: str) -> str:
 
 # ---------------- YOUR ORIGINAL CODE ENDS ----------------
 
+# ---------------- CUSTOM RULE FOR GIRLFRIEND ----------------
+def check_girlfriend_rule(user_text: str):
+    text = user_text.lower()
+    triggers = [
+        "your girlfriend",
+        "who is your girlfriend",
+        "tell me about your girlfriend",
+    ]
+    for t in triggers:
+        if t in text:
+            return "my girlfriend is Mahii Shukla ❤️"
+    return None
 
 # ---------------- FASTAPI ADDITION ----------------
 
