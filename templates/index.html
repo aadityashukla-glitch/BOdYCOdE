@@ -90,11 +90,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary)
 </style>
 </head>
 <body>
-<!-- Header -->
+    <!-- Header -->
 <header>
   <div class="container">
     <nav>
-      <div class="logo">💪 BodyCode</div>
+      <div class="logo">|||—||| BodyCode</div>
       <ul class="nav-links">
         <li><a href="#home">Home</a></li>
         <li><a href="#coach">Talk to Aaditya</a></li>
@@ -133,13 +133,439 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary)
 </aside>
 
 <main class="main-content">
-<!-- Sections remain same -->
-<!-- The JS code for chat, workouts, nutrition, progress, challenges, sidebar navigation remains identical, just colors updated -->
+<!-- AI Coach Section -->
+                <section class="section active" id="coach">
+                    <h2>💬 Talk to Aaditya</h2>
+                    <p class="section-desc">Ask me anything about workouts, nutrition, form corrections, and supplements.</p>
+
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message coach">
+                                <div class="message-content">
+                                    Hey! I'm Aaditya, your personal fitness coach here at BodyCode. Ready to crush your goals? 💪 Ask me about custom workouts, nutrition plans, form tips, or anything fitness-related. Let's build that body you want!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="chatInput" placeholder="Ask me about workouts, nutrition, form..." />
+                            <button onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
+                </section>
+                <!-- Workouts Section -->
+                <section class="section" id="workouts">
+                    <h2>🏋️ Workout Plans</h2>
+                    <p class="section-desc">Generate personalized workouts based on your goals and fitness level.</p>
+
+                    <form onsubmit="generateWorkout(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Your Fitness Level</label>
+                                <select id="level" required>
+                                    <option value="">Select Level</option>
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Workout Duration</label>
+                                <select id="duration" required>
+                                    <option value="">Select Duration</option>
+                                    <option value="15">15 Minutes</option>
+                                    <option value="30">30 Minutes</option>
+                                    <option value="45">45 Minutes</option>
+                                    <option value="60">60 Minutes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Your Goal</label>
+                                <select id="goal" required>
+                                    <option value="">Select Goal</option>
+                                    <option value="strength">Build Strength</option>
+                                    <option value="muscle">Muscle Gain</option>
+                                    <option value="cardio">Cardio & Endurance</option>
+                                    <option value="weight_loss">Weight Loss</option>
+                                    <option value="flexibility">Flexibility</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Equipment Available</label>
+                                <select id="equipment" required>
+                                    <option value="">Select Equipment</option>
+                                    <option value="bodyweight">Bodyweight Only</option>
+                                    <option value="dumbbells">Dumbbells</option>
+                                    <option value="gym">Full Gym</option>
+                                    <option value="minimal">Minimal Equipment</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Any Injuries or Limitations?</label>
+                            <textarea id="limitations" placeholder="E.g., Lower back pain, knee issues, etc." rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Generate My Workout</button>
+                    </form>
+
+                    <div id="workoutResults" style="margin-top: 40px;"></div>
+                </section>
+
+                <!-- Nutrition Section -->
+                <section class="section" id="nutrition">
+                    <h2>🍎 Nutrition & Meal Plans</h2>
+                    <p class="section-desc">Get Indian meal plans and nutrition guidance tailored to your goals.</p>
+
+                    <form onsubmit="getNutritionPlan(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Your Goal</label>
+                                <select id="nutGoal" required>
+                                    <option value="">Select Goal</option>
+                                    <option value="muscle_gain">Muscle Gain</option>
+                                    <option value="weight_loss">Weight Loss</option>
+                                    <option value="maintenance">Maintenance</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Dietary Preference</label>
+                                <select id="diet" required>
+                                    <option value="">Select Preference</option>
+                                    <option value="vegetarian">Vegetarian</option>
+                                    <option value="non_veg">Non-Vegetarian</option>
+                                    <option value="vegan">Vegan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Meal Count Per Day</label>
+                            <select id="meals" required>
+                                <option value="">Select Count</option>
+                                <option value="3">3 Meals</option>
+                                <option value="4">4 Meals</option>
+                                <option value="5">5 Meals</option>
+                                <option value="6">6 Meals</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Generate Meal Plan</button>
+                    </form>
+
+                    <div id="nutritionResults" style="margin-top: 40px;"></div>
+                </section>
+
+                <!-- Progress Section -->
+                <section class="section" id="progress">
+                    <h2>📊 Track Your Progress</h2>
+                    <p class="section-desc">Monitor your fitness journey and achievements.</p>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">0</div>
+                            <div class="stat-label">Workouts Done</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">0</div>
+                            <div class="stat-label">Days Streak</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">0</div>
+                            <div class="stat-label">Hours Trained</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">0</div>
+                            <div class="stat-label">Kg Lost/Gained</div>
+                        </div>
+                    </div>
+
+                    <form onsubmit="logProgress(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Workout Date</label>
+                                <input type="date" id="workoutDate" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Duration (minutes)</label>
+                                <input type="number" id="workoutDuration" placeholder="45" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <textarea id="progressNotes" placeholder="How did you feel? Any PRs?" rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Log Workout</button>
+                    </form>
+                </section>
+
+                <!-- Challenges Section -->
+                <section class="section" id="challenges">
+                    <h2>⚡ Fitness Challenges</h2>
+                    <p class="section-desc">Join 7, 14, or 30-day challenges to accelerate your results.</p>
+
+                    <div style="display: grid; gap: 20px;">
+                        <div class="workout-section">
+                            <div class="workout-title">7-Day Challenge</div>
+                            <p style="color: #b0b0b0; margin-bottom: 16px;">Quick intensity boost with daily workouts.</p>
+                            <button class="btn btn-primary" onclick="startChallenge(7)">Start 7-Day Challenge</button>
+                        </div>
+
+                        <div class="workout-section">
+                            <div class="workout-title">14-Day Challenge</div>
+                            <p style="color: #b0b0b0; margin-bottom: 16px;">Build momentum with two weeks of consistent training.</p>
+                            <button class="btn btn-primary" onclick="startChallenge(14)">Start 14-Day Challenge</button>
+                        </div>
+
+                        <div class="workout-section">
+                            <div class="workout-title">30-Day Transformation</div>
+                            <p style="color: #b0b0b0; margin-bottom: 16px;">Complete body transformation in one month.</p>
+                            <button class="btn btn-primary" onclick="startChallenge(30)">Start 30-Day Challenge</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- About Section -->
+                <section class="section" id="about">
+                    <h2>ℹ️ About Aaditya</h2>
+                    <p class="section-desc">Meet Your Fitness Coach</p>
+
+                    <div class="workout-section">
+                        <p style="color: #e0e0e0; line-height: 1.8; margin-bottom: 20px;">
+                            I'm Aaditya, a certified fitness coach with years of experience transforming bodies and building champions. I created BodyCode to make professional fitness coaching accessible to everyone.
+                        </p>
+                        <p style="color: #e0e0e0; line-height: 1.8; margin-bottom: 20px;">
+                            <strong style="color: var(--primary);">My Approach:</strong> Confident, motivating, and practical. I focus on:
+                        </p>
+                        <ul style="color: #b0b0b0; margin-left: 20px; line-height: 2;">
+                            <li>✅ Personalized workout plans with clear sets, reps, and rest periods</li>
+                            <li>✅ Form corrections and exercise alternatives</li>
+                            <li>✅ Nutrition guidance and Indian meal plans</li>
+                            <li>✅ Supplement recommendations</li>
+                            <li>✅ Progress tracking and motivation</li>
+                            <li>✅ Quick workouts and 7/14/30-day challenges</li>
+                        </ul>
+                        <div style="margin-top: 32px; padding: 20px; background: rgba(212, 175, 55, 0.1); border-radius: 12px; border-left: 4px solid var(--primary);">
+                            <p style="color: var(--primary); font-weight: 700; margin-bottom: 8px;">Fun Fact:</p>
+                            <p style="color: #b0b0b0;">My girlfriend is Mahii Shukla ❤️</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
 </main>
 </div>
 </div>
 <script>
-// Your JS code remains same with minor tweaks if necessary
-</script>
+        const coachResponses = {
+            strength: "For building strength, focus on compound movements like squats, deadlifts, bench press, and rows. Aim for 3-5 sets of 3-8 reps with heavier weights and longer rest periods (2-3 minutes). Progressive overload is key!",
+            muscle: "For muscle gain, aim for 3-4 sets of 8-12 reps per exercise. Focus on mind-muscle connection, controlled movements, and 60-90 seconds rest between sets. Include exercises from all angles and train each muscle group 2x per week.",
+            cardio: "Cardio is crucial for heart health. Do 150 minutes of moderate cardio weekly or 75 minutes of high-intensity. Mix steady-state running, HIIT sprints, and cycling. Don't overtrain - it can affect muscle gains.",
+            nutrition: "Nutrition is 70% of the game. Eat whole foods: lean proteins, complex carbs, and healthy fats. Stay hydrated, time your meals around workouts, and track macros. Indian staples like daal, chicken, rice, and vegetables are perfect.",
+            supplement: "Best supplements: Whey protein (post-workout), creatine (for strength), multivitamin (for overall health), and omega-3. Everything else is secondary. Focus on food first!",
+            form: "Good form prevents injuries and maximizes gains. Always start with lighter weight, focus on the movement pattern, get feedback from experienced lifters, and record yourself to analyze. Quality over quantity!",
+            motivation: "Remember why you started! Progress takes time - trust the process. Celebrate small wins, stay consistent, and don't compare your beginning to someone else's middle. You've got this! 💪"
+        };
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            const chatMessages = document.getElementById('chatMessages');
+
+            // User message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.innerHTML = `<div class="message-content">${escapeHtml(message)}</div>`;
+            chatMessages.appendChild(userMsg);
+
+            // Response
+            const response = getCoachResponse(message);
+            setTimeout(() => {
+                const coachMsg = document.createElement('div');
+                coachMsg.className = 'message coach';
+                coachMsg.innerHTML = `<div class="message-content">${response}</div>`;
+                chatMessages.appendChild(coachMsg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 300);
+
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function getCoachResponse(message) {
+            const msg = message.toLowerCase();
+
+            if (msg.includes('girlfriend')) {
+                return coachResponses.girlfriend;
+            } else if (msg.includes('strength') || msg.includes('strong')) {
+                return coachResponses.strength;
+            } else if (msg.includes('muscle') || msg.includes('bulk')) {
+                return coachResponses.muscle;
+            } else if (msg.includes('cardio') || msg.includes('running')) {
+                return coachResponses.cardio;
+            } else if (msg.includes('nutrition') || msg.includes('food') || msg.includes('meal')) {
+                return coachResponses.nutrition;
+            } else if (msg.includes('supplement') || msg.includes('protein') || msg.includes('creatine')) {
+                return coachResponses.supplement;
+            } else if (msg.includes('form') || msg.includes('technique') || msg.includes('posture')) {
+                return coachResponses.form;
+            } else if (msg.includes('motivat') || msg.includes('discourage') || msg.includes('stuck')) {
+                return coachResponses.motivation;
+            } else {
+                return "That's a great question! Tell me more specifically - are you interested in strength training, muscle gain, cardio, nutrition, form corrections, or something else? I'm here to help! 💪";
+            }
+        }
+
+        function generateWorkout(e) {
+            e.preventDefault();
+            const level = document.getElementById('level').value;
+            const duration = document.getElementById('duration').value;
+            const goal = document.getElementById('goal').value;
+            const limitations = document.getElementById('limitations').value;
+
+            const results = document.getElementById('workoutResults');
+            results.innerHTML = '<div class="loading-spinner"></div><p style="color: #b0b0b0; margin-top: 16px;">Generating your personalized workout...</p>';
+
+            setTimeout(() => {
+                const workouts = {
+                    strength: [
+                        { name: 'Barbell Squats', sets: 4, reps: '5-8', rest: '3 min', notes: 'Focus on depth and control' },
+                        { name: 'Deadlifts', sets: 3, reps: '3-5', rest: '3 min', notes: 'Keep back straight, explosive hip drive' },
+                        { name: 'Bench Press', sets: 4, reps: '6-8', rest: '2.5 min', notes: 'Full ROM, controlled descent' }
+                    ],
+                    muscle: [
+                        { name: 'Incline Dumbbell Press', sets: 4, reps: '8-12', rest: '90 sec', notes: 'Slow eccentric, squeeze at top' },
+                        { name: 'Barbell Rows', sets: 4, reps: '8-12', rest: '90 sec', notes: 'Retract scapula, drive elbows back' },
+                        { name: 'Leg Press', sets: 3, reps: '10-12', rest: '60 sec', notes: 'Full range of motion' }
+                    ],
+                    cardio: [
+                        { name: 'Warm-up Jog', duration: '5 min', notes: 'Easy pace' },
+                        { name: 'Interval Sprints', sets: 8, duration: '30 sec on, 30 sec off', notes: 'Maximum effort' },
+                        { name: 'Cool-down Walk', duration: '5 min', notes: 'Bring heart rate down' }
+                    ]
+                };
+
+                const selectedGoal = goal === 'weight_loss' ? 'cardio' : goal;
+                const exercises = workouts[selectedGoal] || workouts.strength;
+
+                let html = `<div class="workout-section">
+                    <div class="workout-title">Your ${goal} Workout (${duration} min)</div>
+                    <p style="color: #b0b0b0; margin-bottom: 20px; font-size: 14px;">Level: <strong>${level}</strong> | Total Time: ${duration} minutes</p>`;
+
+                exercises.forEach(ex => {
+                    html += `<div class="exercise-block">
+                        <div class="exercise-name">${ex.name}</div>
+                        <div class="exercise-details">
+                            ${ex.sets ? `<div class="detail-tag"><strong>Sets:</strong> ${ex.sets}</div>` : ''}
+                            ${ex.reps ? `<div class="detail-tag"><strong>Reps:</strong> ${ex.reps}</div>` : ''}
+                            ${ex.duration ? `<div class="detail-tag"><strong>Duration:</strong> ${ex.duration}</div>` : ''}
+                            ${ex.rest ? `<div class="detail-tag"><strong>Rest:</strong> ${ex.rest}</div>` : ''}
+                        </div>
+                        ${ex.notes ? `<p style="color: #b0b0b0; font-size: 13px; margin-top: 8px;">💡 ${ex.notes}</p>` : ''}
+                    </div>`;
+                });
+
+                html += `<button class="btn btn-primary" style="margin-top: 20px; width: 100%;">Save This Workout</button></div>`;
+                results.innerHTML = html;
+            }, 500);
+        }
+
+        function getNutritionPlan(e) {
+            e.preventDefault();
+            const goal = document.getElementById('nutGoal').value;
+            const diet = document.getElementById('diet').value;
+            const meals = document.getElementById('meals').value;
+
+            const results = document.getElementById('nutritionResults');
+            results.innerHTML = '<div class="loading-spinner"></div><p style="color: #b0b0b0; margin-top: 16px;">Creating your meal plan...</p>';
+
+            setTimeout(() => {
+                let html = `<div class="workout-section">
+                    <div class="workout-title">Your ${goal} Meal Plan</div>
+                    <p style="color: #b0b0b0; margin-bottom: 20px;">Diet: ${diet} | Meals/day: ${meals}</p>`;
+
+                const mealExamples = {
+                    muscle_gain: [
+                        { meal: 'Breakfast', items: 'Oats with banana, boiled eggs, almonds, milk' },
+                        { meal: 'Mid-morning', items: 'Greek yogurt with granola and honey' },
+                        { meal: 'Lunch', items: 'Chicken/Paneer curry, brown rice, vegetables' },
+                        { meal: 'Pre-workout', items: 'Banana with peanut butter' },
+                        { meal: 'Post-workout', items: 'Protein shake with fruit and oats' },
+                        { meal: 'Dinner', items: 'Fish/Lentils, sweet potato, leafy greens' }
+                    ],
+                    weight_loss: [
+                        { meal: 'Breakfast', items: 'Green tea, vegetable omelette, whole wheat toast' },
+                        { meal: 'Mid-morning', items: 'Apple with almonds' },
+                        { meal: 'Lunch', items: 'Grilled chicken, brown rice, cucumber salad' },
+                        { meal: 'Afternoon snack', items: 'Carrot sticks, hummus' },
+                        { meal: 'Dinner', items: 'Fish, quinoa, steamed broccoli' }
+                    ]
+                };
+
+                const meals_array = mealExamples[goal] || mealExamples.muscle_gain;
+                meals_array.slice(0, parseInt(meals)).forEach(m => {
+                    html += `<div class="exercise-block">
+                        <div class="exercise-name">${m.meal}</div>
+                        <p style="color: #b0b0b0; margin-top: 8px;">${m.items}</p>
+                    </div>`;
+                });
+
+                html += `<div style="margin-top: 20px; padding: 16px; background: rgba(212, 175, 55, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                    <p style="color: var(--primary); font-weight: 700; margin-bottom: 8px;">💧 Hydration Tip:</p>
+                    <p style="color: #b0b0b0;">Drink 3-4 liters of water daily. More if you're training hard!</p>
+                </div></div>`;
+
+                results.innerHTML = html;
+            }, 500);
+        }
+
+        function logProgress(e) {
+            e.preventDefault();
+            const date = document.getElementById('workoutDate').value;
+            const duration = document.getElementById('workoutDuration').value;
+            const notes = document.getElementById('progressNotes').value;
+
+            alert(`✅ Logged! Workout on ${date} for ${duration} minutes.\n\nYou're crushing it! Keep this momentum going! 💪`);
+            e.target.reset();
+        }
+
+        function startChallenge(days) {
+            alert(`🔥 You've started the ${days}-day challenge!\n\nCommit to daily workouts and follow your meal plan. You'll see amazing results!\n\nLet's go! 💪`);
+        }
+
+        // Sidebar navigation
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const section = item.getAttribute('data-section');
+
+                document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+                item.classList.add('active');
+
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                document.getElementById(section).classList.add('active');
+            });
+        });
+
+        // Enter key for chat
+        document.getElementById('chatInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
 </body>
 </html>
+
