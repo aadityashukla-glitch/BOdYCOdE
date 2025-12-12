@@ -564,7 +564,7 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo">|||—||| BodyCode</div>
+                <div class="logo">|||—||| BOdYCOdE</div>
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#coach">Talk to Aaditya</a></li>
@@ -837,6 +837,8 @@
                             <li>✅ Progress tracking and motivation</li>
                             <li>✅ Quick workouts and 7/14/30-day challenges</li>
                         </ul>
+                        <div style="margin-top: 32px; padding: 20px; background: rgba(212, 175, 55, 0.1); border-radius: 12px; border-left: 4px solid var(--primary);">
+                            <p style="color: var(--primary); font-weight: 700; margin-bottom: 8px;">Fun Fact:</p>
                         </div>
                     </div>
                 </section>
@@ -886,9 +888,7 @@
         function getCoachResponse(message) {
             const msg = message.toLowerCase();
 
-            if (msg.includes('girlfriend')) {
-                return coachResponses.girlfriend;
-            } else if (msg.includes('strength') || msg.includes('strong')) {
+            if (msg.includes('strength') || msg.includes('strong')) {
                 return coachResponses.strength;
             } else if (msg.includes('muscle') || msg.includes('bulk')) {
                 return coachResponses.muscle;
@@ -1048,6 +1048,56 @@
             return div.innerHTML;
         }
     </script>
+<script>
+async function sendMessage() {
+    const input = document.getElementById("chatInput");
+    const message = input.value.trim();
+    if (!message) return;
+
+    // Show user message
+    addMessage("user", message);
+    input.value = "";
+
+    // Show loading
+    addMessage("coach", `<div class="loading-spinner"></div>`);
+
+    // Call backend API
+    const res = await fetch("/chat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message })
+    });
+
+    const data = await res.json();
+
+    // Remove loading spinner
+    removeLastCoachMessage();
+
+    // Display reply
+    addMessage("coach", data.reply);
+}
+
+function addMessage(role, msg) {
+    const box = document.getElementById("chatMessages");
+
+    const div = document.createElement("div");
+    div.className = "message " + role;
+
+    div.innerHTML = `<div class="message-content">${msg}</div>`;
+    box.appendChild(div);
+
+    box.scrollTop = box.scrollHeight;
+}
+
+function removeLastCoachMessage() {
+    const box = document.getElementById("chatMessages");
+    const messages = box.getElementsByClassName("message coach");
+    if (messages.length > 0) {
+        messages[messages.length - 1].remove();
+    }
+}
+</script>
 </body>
 </html>
-
