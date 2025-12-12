@@ -1,88 +1,1056 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BOdYCOdE AI Workout Planner</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-    body { background: linear-gradient(to bottom, #1a1a1a, #0f0f0f); color: #fff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-    header { text-align: center; padding: 40px 20px 20px 20px; animation: fadeInDown 1s ease forwards; }
-    header h1 { font-size: 3rem; color: #ff3d00; margin-bottom: 10px; }
-    header p { font-size: 1.2rem; color: #fff; }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BodyCode - Professional Fitness Coach by Aaditya</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .gym-animation { width: 300px; height: 300px; margin: 20px auto; position: relative; }
-    .dumbbell { width: 60px; height: 20px; background: #ff3d00; border-radius: 10px; position: absolute; top: 140px; left: 120px; animation: lift 2s infinite alternate; }
-    .weight-left, .weight-right { width: 20px; height: 60px; background: #ff3d00; position: absolute; top: -20px; border-radius: 4px; }
-    .weight-left { left: -20px; }
-    .weight-right { right: -20px; }
-    @keyframes lift { 0% { transform: rotate(0deg) translateY(0); } 100% { transform: rotate(-15deg) translateY(-30px); } }
-    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px);} to { opacity: 1; transform: translateY(0);} }
+        :root {
+            --primary: #d4af37;
+            --primary-dark: #b8941f;
+            --secondary: #1a1a1a;
+            --accent: #ff6b35;
+            --success: #00d97e;
+            --dark: #0a0a0a;
+            --light: #ffffff;
+            --gray-50: #f5f5f5;
+            --gray-100: #e0e0e0;
+            --gray-700: #4a4a4a;
+        }
 
-    .chat-container { width: 90%; max-width: 700px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; box-shadow: 0 0 20px rgba(255,61,0,0.5); display: flex; flex-direction: column; gap: 10px; animation: fadeInUp 1s ease forwards; }
-    .chat-messages { height: 300px; overflow-y: auto; padding: 10px; border: 1px solid #ff3d00; border-radius: 10px; background: rgba(0,0,0,0.3); }
-    .chat-messages p { margin-bottom: 10px; }
-    .chat-input { display: flex; gap: 10px; }
-    .chat-input input { flex: 1; padding: 10px; border-radius: 10px; border: none; outline: none; font-size: 1rem; }
-    .chat-input button { padding: 10px 20px; border-radius: 10px; border: none; background: #ff3d00; color: #fff; cursor: pointer; font-weight: bold; transition: 0.3s; }
-    .chat-input button:hover { background: #ff5722; }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(50px);} to { opacity: 1; transform: translateY(0);} }
-  </style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-700);
+            background: linear-gradient(135deg, var(--dark) 0%, #1a1a1a 100%);
+            color: var(--light);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 16px 0;
+            border-bottom: 2px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: var(--dark);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(255, 107, 53, 0.05) 100%);
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #b0b0b0;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        /* Main App */
+        .app-wrapper {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 32px;
+            margin: 40px 0;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .sidebar-item {
+            padding: 14px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid transparent;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: var(--primary);
+        }
+
+        .sidebar-item.active {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(255, 107, 53, 0.2) 100%);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-desc {
+            color: #b0b0b0;
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--light);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--light);
+            transition: all 0.3s;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #707070;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Chat Interface */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            background: rgba(212, 175, 55, 0.2);
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(255, 107, 53, 0.2) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .message.coach .message-content {
+            background: rgba(255, 255, 255, 0.08);
+            color: #e0e0e0;
+        }
+
+        .chat-input {
+            padding: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex;
+            gap: 12px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            margin: 0;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .chat-input button {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: var(--dark);
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .chat-input button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Workout Display */
+        .workout-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 24px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .workout-title {
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .exercise-block {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .exercise-name {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .exercise-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .detail-tag {
+            background: rgba(212, 175, 55, 0.15);
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: #b0b0b0;
+            border-left: 2px solid var(--primary);
+        }
+
+        .detail-tag strong {
+            color: var(--primary);
+        }
+
+        /* Loading */
+        .loading-spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(212, 175, 55, 0.3);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 32px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #b0b0b0;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .modal-close:hover {
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .app-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .sidebar-section {
+                margin: 0;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 14px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">💪 BodyCode</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#coach">Talk to Aaditya</a></li>
+                </ul>
+                <button class="btn btn-primary">Get Started</button>
+            </nav>
+        </div>
+    </header>
 
-  <header>
-    <h1>BOdYCOdE</h1>
-    <p>our genes, Reimagined</p>
-  </header>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-tag">Professional Fitness Coach</div>
+            <h1>BodyCode</h1>
+            <p>Your Personal Fitness Coach Created By Aaditya</p>
+            <p style="color: var(--primary); font-size: 14px; margin-top: 16px; text-transform: uppercase; letter-spacing: 1px;">
+                Confident • Motivating • Practical
+            </p>
+        </div>
+    </section>
 
-  <div class="gym-animation">
-    <div class="dumbbell">
-      <div class="weight-left"></div>
-      <div class="weight-right"></div>
+    <!-- Main App -->
+    <div class="container">
+        <div class="app-wrapper">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <span class="sidebar-title">Menu</span>
+                    <div class="sidebar-item active" data-section="coach">
+                        💬 AI Coach
+                    </div>
+                    <div class="sidebar-item" data-section="workouts">
+                        🏋️ Workouts
+                    </div>
+                    <div class="sidebar-item" data-section="nutrition">
+                        🍎 Nutrition
+                    </div>
+                    <div class="sidebar-item" data-section="progress">
+                        📊 Progress
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <span class="sidebar-title">Quick Links</span>
+                    <div class="sidebar-item" data-section="challenges">
+                        ⚡ Challenges
+                    </div>
+                    <div class="sidebar-item" data-section="about">
+                        ℹ️ About Aaditya
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- AI Coach Section -->
+                <section class="section active" id="coach">
+                    <h2>💬 Talk to Aaditya</h2>
+                    <p class="section-desc">Ask me anything about workouts, nutrition, form corrections, and supplements.</p>
+
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message coach">
+                                <div class="message-content">
+                                    Hey! I'm Aaditya, your personal fitness coach here at BodyCode. Ready to crush your goals? 💪 Ask me about custom workouts, nutrition plans, form tips, or anything fitness-related. Let's build that body you want!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="chatInput" placeholder="Ask me about workouts, nutrition, form..." />
+                            <button onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Workouts Section -->
+                <section class="section" id="workouts">
+                    <h2>🏋️ Workout Plans</h2>
+                    <p class="section-desc">Generate personalized workouts based on your goals and fitness level.</p>
+
+                    <form onsubmit="generateWorkout(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Your Fitness Level</label>
+                                <select id="level" required>
+                                    <option value="">Select Level</option>
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Workout Duration</label>
+                                <select id="duration" required>
+                                    <option value="">Select Duration</option>
+                                    <option value="15">15 Minutes</option>
+                                    <option value="30">30 Minutes</option>
+                                    <option value="45">45 Minutes</option>
+                                    <option value="60">60 Minutes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Your Goal</label>
+                                <select id="goal" required>
+                                    <option value="">Select Goal</option>
+                                    <option value="strength">Build Strength</option>
+                                    <option value="muscle">Muscle Gain</option>
+                                    <option value="cardio">Cardio & Endurance</option>
+                                    <option value="weight_loss">Weight Loss</option>
+                                    <option value="flexibility">Flexibility</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Equipment Available</label>
+                                <select id="equipment" required>
+                                    <option value="">Select Equipment</option>
+                                    <option value="bodyweight">Bodyweight Only</option>
+                                    <option value="dumbbells">Dumbbells</option>
+                                    <option value="gym">Full Gym</option>
+                                    <option value="minimal">Minimal Equipment</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Any Injuries or Limitations?</label>
+                            <textarea id="limitations" placeholder="E.g., Lower back pain, knee issues, etc." rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Generate My Workout</button>
+                    </form>
+
+                    <div id="workoutResults" style="margin-top: 40px;"></div>
+                </section>
+
+                <!-- Nutrition Section -->
+                <section class="section" id="nutrition">
+                    <h2>🍎 Nutrition & Meal Plans</h2>
+                    <p class="section-desc">Get Indian meal plans and nutrition guidance tailored to your goals.</p>
+
+                    <form onsubmit="getNutritionPlan(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Your Goal</label>
+                                <select id="nutGoal" required>
+                                    <option value="">Select Goal</option>
+                                    <option value="muscle_gain">Muscle Gain</option>
+                                    <option value="weight_loss">Weight Loss</option>
+                                    <option value="maintenance">Maintenance</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Dietary Preference</label>
+                                <select id="diet" required>
+                                    <option value="">Select Preference</option>
+                                    <option value="vegetarian">Vegetarian</option>
+                                    <option value="non_veg">Non-Vegetarian</option>
+                                    <option value="vegan">Vegan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Meal Count Per Day</label>
+                            <select id="meals" required>
+                                <option value="">Select Count</option>
+                                <option value="3">3 Meals</option>
+                                <option value="4">4 Meals</option>
+                                <option value="5">5 Meals</option>
+                                <option value="6">6 Meals</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Generate Meal Plan</button>
+                    </form>
+
+                    <div id="nutritionResults" style="margin-top: 40px;"></div>
+                </section>
+
+                <!-- Progress Section -->
+                <section class="section" id="progress">
+                    <h2>📊 Track Your Progress</h2>
+                    <p class="section-desc">Monitor your fitness journey and achievements.</p>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">0</div>
+                            <div class="stat-label">Workouts Done</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">0</div>
+                            <div class="stat-label">Days Streak</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">0</div>
+                            <div class="stat-label">Hours Trained</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">0</div>
+                            <div class="stat-label">Kg Lost/Gained</div>
+                        </div>
+                    </div>
+
+                    <form onsubmit="logProgress(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Workout Date</label>
+                                <input type="date" id="workoutDate" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Duration (minutes)</label>
+                                <input type="number" id="workoutDuration" placeholder="45" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <textarea id="progressNotes" placeholder="How did you feel? Any PRs?" rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Log Workout</button>
+                    </form>
+                </section>
+
+                <!-- Challenges Section -->
+                <section class="section" id="challenges">
+                    <h2>⚡ Fitness Challenges</h2>
+                    <p class="section-desc">Join 7, 14, or 30-day challenges to accelerate your results.</p>
+
+                    <div style="display: grid; gap: 20px;">
+                        <div class="workout-section">
+                            <div class="workout-title">7-Day Challenge</div>
+                            <p style="color: #b0b0b0; margin-bottom: 16px;">Quick intensity boost with daily workouts.</p>
+                            <button class="btn btn-primary" onclick="startChallenge(7)">Start 7-Day Challenge</button>
+                        </div>
+
+                        <div class="workout-section">
+                            <div class="workout-title">14-Day Challenge</div>
+                            <p style="color: #b0b0b0; margin-bottom: 16px;">Build momentum with two weeks of consistent training.</p>
+                            <button class="btn btn-primary" onclick="startChallenge(14)">Start 14-Day Challenge</button>
+                        </div>
+
+                        <div class="workout-section">
+                            <div class="workout-title">30-Day Transformation</div>
+                            <p style="color: #b0b0b0; margin-bottom: 16px;">Complete body transformation in one month.</p>
+                            <button class="btn btn-primary" onclick="startChallenge(30)">Start 30-Day Challenge</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- About Section -->
+                <section class="section" id="about">
+                    <h2>ℹ️ About Aaditya</h2>
+                    <p class="section-desc">Meet Your Fitness Coach</p>
+
+                    <div class="workout-section">
+                        <p style="color: #e0e0e0; line-height: 1.8; margin-bottom: 20px;">
+                            I'm Aaditya, a certified fitness coach with years of experience transforming bodies and building champions. I created BodyCode to make professional fitness coaching accessible to everyone.
+                        </p>
+                        <p style="color: #e0e0e0; line-height: 1.8; margin-bottom: 20px;">
+                            <strong style="color: var(--primary);">My Approach:</strong> Confident, motivating, and practical. I focus on:
+                        </p>
+                        <ul style="color: #b0b0b0; margin-left: 20px; line-height: 2;">
+                            <li>✅ Personalized workout plans with clear sets, reps, and rest periods</li>
+                            <li>✅ Form corrections and exercise alternatives</li>
+                            <li>✅ Nutrition guidance and Indian meal plans</li>
+                            <li>✅ Supplement recommendations</li>
+                            <li>✅ Progress tracking and motivation</li>
+                            <li>✅ Quick workouts and 7/14/30-day challenges</li>
+                        </ul>
+                        <div style="margin-top: 32px; padding: 20px; background: rgba(212, 175, 55, 0.1); border-radius: 12px; border-left: 4px solid var(--primary);">
+                            <p style="color: var(--primary); font-weight: 700; margin-bottom: 8px;">Fun Fact:</p>
+                            <p style="color: #b0b0b0;">My girlfriend is Mahii Shukla ❤️</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
     </div>
-  </div>
 
-  <div class="chat-container">
-    <div class="chat-messages" id="chat-messages">
-      <p><strong>Aaditya:</strong> Hi! i am aaditya I can create personalized workout plans and provide exercise info.</p>
-    </div>
-    <div class="chat-input">
-      <input type="text" id="user-input" placeholder="Ask me about workouts or exercises..." />
-      <button onclick="sendMessage()">Send</button>
-    </div>
-  </div>
+    <script>
+        const coachResponses = {
+            strength: "For building strength, focus on compound movements like squats, deadlifts, bench press, and rows. Aim for 3-5 sets of 3-8 reps with heavier weights and longer rest periods (2-3 minutes). Progressive overload is key!",
+            muscle: "For muscle gain, aim for 3-4 sets of 8-12 reps per exercise. Focus on mind-muscle connection, controlled movements, and 60-90 seconds rest between sets. Include exercises from all angles and train each muscle group 2x per week.",
+            cardio: "Cardio is crucial for heart health. Do 150 minutes of moderate cardio weekly or 75 minutes of high-intensity. Mix steady-state running, HIIT sprints, and cycling. Don't overtrain - it can affect muscle gains.",
+            nutrition: "Nutrition is 70% of the game. Eat whole foods: lean proteins, complex carbs, and healthy fats. Stay hydrated, time your meals around workouts, and track macros. Indian staples like daal, chicken, rice, and vegetables are perfect.",
+            supplement: "Best supplements: Whey protein (post-workout), creatine (for strength), multivitamin (for overall health), and omega-3. Everything else is secondary. Focus on food first!",
+            form: "Good form prevents injuries and maximizes gains. Always start with lighter weight, focus on the movement pattern, get feedback from experienced lifters, and record yourself to analyze. Quality over quantity!",
+            motivation: "Remember why you started! Progress takes time - trust the process. Celebrate small wins, stay consistent, and don't compare your beginning to someone else's middle. You've got this! 💪"
+        };
 
-  <script>
-    async function sendMessage() {
-      const input = document.getElementById('user-input');
-      const message = input.value.trim();
-      if (!message) return;
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
 
-      const chatMessages = document.getElementById('chat-messages');
-      chatMessages.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
-      input.value = '';
+            if (!message) return;
 
-      try {
-        const response = await fetch('/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message })
+            const chatMessages = document.getElementById('chatMessages');
+
+            // User message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.innerHTML = `<div class="message-content">${escapeHtml(message)}</div>`;
+            chatMessages.appendChild(userMsg);
+
+            // Response
+            const response = getCoachResponse(message);
+            setTimeout(() => {
+                const coachMsg = document.createElement('div');
+                coachMsg.className = 'message coach';
+                coachMsg.innerHTML = `<div class="message-content">${response}</div>`;
+                chatMessages.appendChild(coachMsg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 300);
+
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function getCoachResponse(message) {
+            const msg = message.toLowerCase();
+
+            if (msg.includes('girlfriend')) {
+                return coachResponses.girlfriend;
+            } else if (msg.includes('strength') || msg.includes('strong')) {
+                return coachResponses.strength;
+            } else if (msg.includes('muscle') || msg.includes('bulk')) {
+                return coachResponses.muscle;
+            } else if (msg.includes('cardio') || msg.includes('running')) {
+                return coachResponses.cardio;
+            } else if (msg.includes('nutrition') || msg.includes('food') || msg.includes('meal')) {
+                return coachResponses.nutrition;
+            } else if (msg.includes('supplement') || msg.includes('protein') || msg.includes('creatine')) {
+                return coachResponses.supplement;
+            } else if (msg.includes('form') || msg.includes('technique') || msg.includes('posture')) {
+                return coachResponses.form;
+            } else if (msg.includes('motivat') || msg.includes('discourage') || msg.includes('stuck')) {
+                return coachResponses.motivation;
+            } else {
+                return "That's a great question! Tell me more specifically - are you interested in strength training, muscle gain, cardio, nutrition, form corrections, or something else? I'm here to help! 💪";
+            }
+        }
+
+        function generateWorkout(e) {
+            e.preventDefault();
+            const level = document.getElementById('level').value;
+            const duration = document.getElementById('duration').value;
+            const goal = document.getElementById('goal').value;
+            const limitations = document.getElementById('limitations').value;
+
+            const results = document.getElementById('workoutResults');
+            results.innerHTML = '<div class="loading-spinner"></div><p style="color: #b0b0b0; margin-top: 16px;">Generating your personalized workout...</p>';
+
+            setTimeout(() => {
+                const workouts = {
+                    strength: [
+                        { name: 'Barbell Squats', sets: 4, reps: '5-8', rest: '3 min', notes: 'Focus on depth and control' },
+                        { name: 'Deadlifts', sets: 3, reps: '3-5', rest: '3 min', notes: 'Keep back straight, explosive hip drive' },
+                        { name: 'Bench Press', sets: 4, reps: '6-8', rest: '2.5 min', notes: 'Full ROM, controlled descent' }
+                    ],
+                    muscle: [
+                        { name: 'Incline Dumbbell Press', sets: 4, reps: '8-12', rest: '90 sec', notes: 'Slow eccentric, squeeze at top' },
+                        { name: 'Barbell Rows', sets: 4, reps: '8-12', rest: '90 sec', notes: 'Retract scapula, drive elbows back' },
+                        { name: 'Leg Press', sets: 3, reps: '10-12', rest: '60 sec', notes: 'Full range of motion' }
+                    ],
+                    cardio: [
+                        { name: 'Warm-up Jog', duration: '5 min', notes: 'Easy pace' },
+                        { name: 'Interval Sprints', sets: 8, duration: '30 sec on, 30 sec off', notes: 'Maximum effort' },
+                        { name: 'Cool-down Walk', duration: '5 min', notes: 'Bring heart rate down' }
+                    ]
+                };
+
+                const selectedGoal = goal === 'weight_loss' ? 'cardio' : goal;
+                const exercises = workouts[selectedGoal] || workouts.strength;
+
+                let html = `<div class="workout-section">
+                    <div class="workout-title">Your ${goal} Workout (${duration} min)</div>
+                    <p style="color: #b0b0b0; margin-bottom: 20px; font-size: 14px;">Level: <strong>${level}</strong> | Total Time: ${duration} minutes</p>`;
+
+                exercises.forEach(ex => {
+                    html += `<div class="exercise-block">
+                        <div class="exercise-name">${ex.name}</div>
+                        <div class="exercise-details">
+                            ${ex.sets ? `<div class="detail-tag"><strong>Sets:</strong> ${ex.sets}</div>` : ''}
+                            ${ex.reps ? `<div class="detail-tag"><strong>Reps:</strong> ${ex.reps}</div>` : ''}
+                            ${ex.duration ? `<div class="detail-tag"><strong>Duration:</strong> ${ex.duration}</div>` : ''}
+                            ${ex.rest ? `<div class="detail-tag"><strong>Rest:</strong> ${ex.rest}</div>` : ''}
+                        </div>
+                        ${ex.notes ? `<p style="color: #b0b0b0; font-size: 13px; margin-top: 8px;">💡 ${ex.notes}</p>` : ''}
+                    </div>`;
+                });
+
+                html += `<button class="btn btn-primary" style="margin-top: 20px; width: 100%;">Save This Workout</button></div>`;
+                results.innerHTML = html;
+            }, 500);
+        }
+
+        function getNutritionPlan(e) {
+            e.preventDefault();
+            const goal = document.getElementById('nutGoal').value;
+            const diet = document.getElementById('diet').value;
+            const meals = document.getElementById('meals').value;
+
+            const results = document.getElementById('nutritionResults');
+            results.innerHTML = '<div class="loading-spinner"></div><p style="color: #b0b0b0; margin-top: 16px;">Creating your meal plan...</p>';
+
+            setTimeout(() => {
+                let html = `<div class="workout-section">
+                    <div class="workout-title">Your ${goal} Meal Plan</div>
+                    <p style="color: #b0b0b0; margin-bottom: 20px;">Diet: ${diet} | Meals/day: ${meals}</p>`;
+
+                const mealExamples = {
+                    muscle_gain: [
+                        { meal: 'Breakfast', items: 'Oats with banana, boiled eggs, almonds, milk' },
+                        { meal: 'Mid-morning', items: 'Greek yogurt with granola and honey' },
+                        { meal: 'Lunch', items: 'Chicken/Paneer curry, brown rice, vegetables' },
+                        { meal: 'Pre-workout', items: 'Banana with peanut butter' },
+                        { meal: 'Post-workout', items: 'Protein shake with fruit and oats' },
+                        { meal: 'Dinner', items: 'Fish/Lentils, sweet potato, leafy greens' }
+                    ],
+                    weight_loss: [
+                        { meal: 'Breakfast', items: 'Green tea, vegetable omelette, whole wheat toast' },
+                        { meal: 'Mid-morning', items: 'Apple with almonds' },
+                        { meal: 'Lunch', items: 'Grilled chicken, brown rice, cucumber salad' },
+                        { meal: 'Afternoon snack', items: 'Carrot sticks, hummus' },
+                        { meal: 'Dinner', items: 'Fish, quinoa, steamed broccoli' }
+                    ]
+                };
+
+                const meals_array = mealExamples[goal] || mealExamples.muscle_gain;
+                meals_array.slice(0, parseInt(meals)).forEach(m => {
+                    html += `<div class="exercise-block">
+                        <div class="exercise-name">${m.meal}</div>
+                        <p style="color: #b0b0b0; margin-top: 8px;">${m.items}</p>
+                    </div>`;
+                });
+
+                html += `<div style="margin-top: 20px; padding: 16px; background: rgba(212, 175, 55, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                    <p style="color: var(--primary); font-weight: 700; margin-bottom: 8px;">💧 Hydration Tip:</p>
+                    <p style="color: #b0b0b0;">Drink 3-4 liters of water daily. More if you're training hard!</p>
+                </div></div>`;
+
+                results.innerHTML = html;
+            }, 500);
+        }
+
+        function logProgress(e) {
+            e.preventDefault();
+            const date = document.getElementById('workoutDate').value;
+            const duration = document.getElementById('workoutDuration').value;
+            const notes = document.getElementById('progressNotes').value;
+
+            alert(`✅ Logged! Workout on ${date} for ${duration} minutes.\n\nYou're crushing it! Keep this momentum going! 💪`);
+            e.target.reset();
+        }
+
+        function startChallenge(days) {
+            alert(`🔥 You've started the ${days}-day challenge!\n\nCommit to daily workouts and follow your meal plan. You'll see amazing results!\n\nLet's go! 💪`);
+        }
+
+        // Sidebar navigation
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const section = item.getAttribute('data-section');
+
+                document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+                item.classList.add('active');
+
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                document.getElementById(section).classList.add('active');
+            });
         });
 
-        const data = await response.json();
+        // Enter key for chat
+        document.getElementById('chatInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
 
-        chatMessages.innerHTML += `<p><strong>Aaditya:</strong> ${data.reply}</p>`;
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-
-      } catch (err) {
-        chatMessages.innerHTML += `<p><strong>Aaditya:</strong> Sorry, something went wrong.</p>`;
-      }
-    }
-  </script>
-
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
 </body>
 </html>
-
-
